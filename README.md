@@ -1,7 +1,6 @@
 # RandomGen Tools
 
-[![Demo Langsung](https://img.shields.io/badge/Demo%20Langsung-Lihat%20Website-brightgreen?style=for-the-badge)](https://xr-wahyuu.github.io/RandomGenTools/)
-*(https://github.com/xr-wahyuu/RandomGen-Tools/)*
+[![Demo Langsung](https://img.shields.io/badge/Demo%20Langsung-Lihat%20Website-brightgreen?style=for-the-badge)](https://xr-wahyuu.github.io/RandomGen-Tools/)
 
 ---
 
@@ -30,7 +29,7 @@ Aplikasi ini bisa Anda akses dan berfungsi dengan baik di berbagai perangkat, mu
 
 1.  **Kloning Repositori (Opsional):**
     ```bash
-    git clone [https://github.com/xr-wahyuu/RandomGenTools.git](https://github.com/xr-wahyuu/RandomGenTools.git)
+    git clone https://github.com/xr-wahyuu/RandomGenTools.git
     ```
     Atau, unduh saja file ZIP repositori ini.
 
