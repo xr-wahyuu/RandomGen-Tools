@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Acak Serbaguna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Variabel Warna */
+        :root {
+            --primary-color: #6366F1; /* Biru Ungu */
+            --primary-light: #818CF8;
+            --primary-dark: #4F46E5;
+            --accent-color: #EC4899; /* Pink Aksesori */
+            --text-color: #374151; /* Abu-abu Gelap */
+            --text-light: #6B7280; /* Abu-abu Terang */
+            --bg-color: #F3F4F6; /* Abu-abu Sangat Terang */
+            --card-bg: #FFFFFF;
+            --border-color: #D1D5DB; /* Abu-abu Batas */
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --success-color: #10B981; /* Hijau Sukses */
+        }
+
+        /* Reset & Base Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center; /* Pusatkan konten vertikal */
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin: 20px auto; /* Margin atas/bawah otomatis untuk pusatkan */
+            box-sizing: border-box;
+            position: relative; /* Untuk positioning tooltip */
+            overflow: hidden; /* Pastikan tidak ada overflow dari shadow */
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2.2em;
+            letter-spacing: -0.02em;
+        }
+
+        /* Group Formulir */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: calc(100% - 24px); /* Kurangi padding */
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none; /* Hilangkan styling default browser */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Shadow fokus */
+            outline: none;
+        }
+
+        /* Checkbox Styling */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsif grid */
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            user-select: none; /* Mencegah seleksi teks */
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '\2713'; /* Tanda centang */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .checkbox-item input[type="checkbox"]:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Radio button group styling */
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .radio-item input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%; /* Make it round */
+            cursor: pointer;
+            position: relative;
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .radio-item input[type="radio"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .radio-item input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        .radio-item input[type="radio"]:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Tombol Generate */
+        button#generateButton {
+            background-image: linear-gradient(to right, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        button#generateButton:hover {
+            background-image: linear-gradient(to right, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        button#generateButton:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Kotak Hasil & Dynamic Content */
+        .results-area {
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .results-area .initial-message {
+            color: var(--text-light);
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        .list-title {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .result-box {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+            word-break: break-all;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dynamic-result-box {
+            margin-top: 15px; /* Adjust margin for dynamic boxes */
+            border: 1px dashed var(--border-color); /* Dotted border to differentiate */
+            background-color: var(--card-bg); /* Use card-bg for dynamic boxes */
+        }
+
+        .result-box label {
+            font-size: 0.9em;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .result-box p {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 0;
+            flex-grow: 1; /* Biarkan teks mengisi ruang */
+            padding-right: 45px; /* Beri ruang untuk tombol salin */
+        }
+
+        /* Tombol Salin */
+        .copy-button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.2em;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        .copy-button:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary-dark);
+        }
+
+        .copy-button:active {
+            background-color: rgba(99, 102, 241, 0.2);
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .copy-button i {
+            pointer-events: none; /* Agar klik tembus ke tombol */
+        }
+
+        /* Tooltip Salin */
+        .tooltip {
+            position: absolute;
+            background-color: var(--text-color);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            z-index: 10;
+            bottom: calc(100% + 10px); /* Posisi di atas tombol */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .copy-button:hover .tooltip,
+        .copy-button:focus .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--text-color) transparent transparent transparent;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto; /* Dorong footer ke bawah */
+            padding: 20px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: transparent; /* Tetap transparan */
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+                max-width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+            }
+
+            .radio-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            button#generateButton {
+                font-size: 1.1em;
+                padding: 13px 25px;
+            }
+
+            .result-box p {
+                font-size: 1.2em;
+                padding-right: 40px;
+            }
+
+            .copy-button {
+                font-size: 1.1em;
+                right: 10px;
+            }
+
+            footer {
+                padding: 15px;
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                border-radius: 8px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            label {
+                font-size: 1em;
+            }
+            input[type="number"],
+            input[type="text"] {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+            .checkbox-item {
+                font-size: 0.9em;
+            }
+            input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+            }
+            button#generateButton {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+            .result-box {
+                padding: 15px;
+            }
+            .result-box p {
+                font-size: 1.1em;
+            }
+            .copy-button {
+                font-size: 1em;
+            }
+        }
+
+        /* Custom Alert/Message Box Styling */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .message-box-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .message-box-overlay.visible .message-box {
+            transform: translateY(0);
+        }
+
+        .message-box h3 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .message-box p {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin-bottom: 25px;
+        }
+
+        .message-box button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .message-box button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Message box for Disclaimer */
+        .result-message-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .result-message-box h3 {
+            color: var(--accent-color); /* Use accent for attention */
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+
+        .result-message-box p {
+            color: var(--text-color);
+            font-size: 1em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator Acak Serbaguna</h1>
+
+        <div class="form-group">
+            <label>Jenis Generasi:</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" id="typeUserPass" name="generationType" value="userpass" checked>
+                    <label for="typeUserPass">Username & Password</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="typeSocialMedia" name="generationType" value="socialmedia">
+                    <label for="typeSocialMedia">Username Media Sosial</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="typePhoneNumber" name="generationType" value="phonenumber">
+                    <label for="typePhoneNumber">Nomor Telepon</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="typeBirthdate" name="generationType" value="birthdate">
+                    <label for="typeBirthdate">Tanggal Lahir</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="typeAddress" name="generationType" value="address">
+                    <label for="typeAddress">Alamat</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="lengthGroup">
+            <label for="length">Panjang Karakter:</label>
+            <input type="number" id="length" min="4" max="64" value="12">
+        </div>
+
+        <div class="form-group" id="charOptionsGroup">
+            <label>Opsi Karakter:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeUppercase" checked>
+                    <label for="includeUppercase">Huruf Kapital (A-Z)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeLowercase" checked>
+                    <label for="includeLowercase">Huruf Kecil (a-z)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeNumbers" checked>
+                    <label for="includeNumbers">Angka (0-9)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeSymbols">
+                    <label for="includeSymbols">Simbol (!@#$ dll)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="quantityGroup">
+            <label for="quantity">Jumlah yang Digenerate:</label>
+            <input type="number" id="quantity" min="1" max="1000" value="1">
+        </div>
+
+        <button id="generateButton">Generate!</button>
+
+        <!-- Dynamic Result Area -->
+        <div id="resultsContainer" class="results-area">
+            <p class="initial-message">Pilih jenis generasi dan klik 'Generate!'</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Dibuat oleh <a href="https://xr-wahyuu.github.io" target="_blank" rel="noopener noreferrer">xr-wahyuu</a>
+    </footer>
+
+    <!-- Custom Message Box -->
+    <div id="messageBoxOverlay" class="message-box-overlay">
+        <div class="message-box">
+            <h3 id="messageBoxTitle"></h3>
+            <p id="messageBoxContent"></p>
+            <button onclick="hideMessageBox()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk menampilkan kotak pesan kustom
+        function showMessageBox(title, message) {
+            document.getElementById('messageBoxTitle').innerText = title;
+            document.getElementById('messageBoxContent').innerText = message;
+            document.getElementById('messageBoxOverlay').classList.add('visible');
+        }
+
+        // Fungsi untuk menyembunyikan kotak pesan kustom
+        function hideMessageBox() {
+            document.getElementById('messageBoxOverlay').classList.remove('visible');
+        }
+
+        // Event listener untuk tombol Generate
+        document.getElementById('generateButton').addEventListener('click', handleGenerate);
+
+        // Event listeners untuk perubahan jenis generasi (radio button)
+        document.querySelectorAll('input[name="generationType"]').forEach(radio => {
+            radio.addEventListener('change', toggleFormVisibility);
+        });
+
+        /**
+         * Mengatur visibilitas grup form berdasarkan jenis generasi yang dipilih.
+         */
+        function toggleFormVisibility() {
+            const selectedType = document.querySelector('input[name="generationType"]:checked').value;
+            const lengthGroup = document.getElementById('lengthGroup');
+            const charOptionsGroup = document.getElementById('charOptionsGroup');
+            const lengthInput = document.getElementById('length');
+            const quantityInput = document.getElementById('quantity');
+
+            // Reset quantity to 1 when changing type for user convenience
+            quantityInput.value = 1;
+
+            // Clear previous results when type changes
+            document.getElementById('resultsContainer').innerHTML = '<p class="initial-message">Pilih jenis generasi dan klik \'Generate!\'</p>';
+
+            // Tentukan visibilitas dan pengaturan default
+            if (selectedType === 'userpass' || selectedType === 'socialmedia') {
+                lengthGroup.style.display = 'block';
+                charOptionsGroup.style.display = 'block';
+                lengthInput.setAttribute('min', '4');
+                lengthInput.setAttribute('max', '64');
+                lengthInput.value = 12; // Default length
+
+                // Update label for length based on type
+                lengthInput.previousElementSibling.innerText = 'Panjang Karakter:';
+
+                // Set default checkbox states
+                if (selectedType === 'userpass') {
+                    document.getElementById('includeUppercase').checked = true;
+                    document.getElementById('includeLowercase').checked = true;
+                    document.getElementById('includeNumbers').checked = true;
+                    document.getElementById('includeSymbols').checked = false; // Default symbols off for general user/pass
+                    document.getElementById('includeSymbols').nextElementSibling.innerText = 'Simbol (!@#$ dll)';
+                } else { // socialmedia
+                    document.getElementById('includeUppercase').checked = false; // Social media often lowercase
+                    document.getElementById('includeLowercase').checked = true;
+                    document.getElementById('includeNumbers').checked = true;
+                    document.getElementById('includeSymbols').checked = true; // For common social media symbols like . _
+                    document.getElementById('includeSymbols').nextElementSibling.innerText = 'Simbol (._)';
+                }
+            } else {
+                lengthGroup.style.display = 'none';
+                charOptionsGroup.style.display = 'none';
+            }
+        }
+
+        // Panggilan awal untuk mengatur visibilitas yang benar saat halaman dimuat
+        toggleFormVisibility();
+
+        /**
+         * Fungsi utama untuk menangani proses generate berdasarkan jenis yang dipilih.
+         */
+        function handleGenerate() {
+            const selectedType = document.querySelector('input[name="generationType"]:checked').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = ''; // Hapus hasil sebelumnya
+
+            // Validasi jumlah
+            if (isNaN(quantity) || quantity < 1 || quantity > 1000) {
+                showMessageBox("Kesalahan", "Jumlah yang digenerate harus antara 1 dan 1000.");
+                return;
+            }
+
+            let generatedItems = [];
+            const length = parseInt(document.getElementById('length').value);
+            const includeUppercase = document.getElementById('includeUppercase').checked;
+            const includeLowercase = document.getElementById('includeLowercase').checked;
+            const includeNumbers = document.getElementById('includeNumbers').checked;
+            const includeSymbols = document.getElementById('includeSymbols').checked;
+
+            // Validasi panjang dan opsi karakter untuk jenis yang relevan
+            if (selectedType === 'userpass' || selectedType === 'socialmedia') {
+                if (isNaN(length) || length < 4 || length > 64) {
+                    showMessageBox("Kesalahan", "Panjang karakter harus antara 4 dan 64.");
+                    return;
+                }
+                if (!includeUppercase && !includeLowercase && !includeNumbers && !includeSymbols) {
+                    showMessageBox("Kesalahan", "Setidaknya satu jenis karakter harus dipilih!");
+                    return;
+                }
+            }
+
+            // Loop untuk menghasilkan item sesuai jumlah yang diminta
+            for (let i = 0; i < quantity; i++) {
+                let item = {};
+                if (selectedType === 'userpass') {
+                    item.username = generateString(length, includeUppercase, includeLowercase, includeNumbers, includeSymbols);
+                    item.password = generateString(length, includeUppercase, includeLowercase, includeNumbers, includeSymbols);
+                    generatedItems.push(item);
+                } else if (selectedType === 'socialmedia') {
+                    // For social media, symbols are limited to . and _
+                    const socialMediaSymbols = includeSymbols ? '._' : '';
+                    item.username = generateSocialMediaUsername(length, includeLowercase, includeNumbers, socialMediaSymbols);
+                    generatedItems.push(item);
+                } else if (selectedType === 'phonenumber') {
+                    item.phoneNumber = generatePhoneNumber();
+                    generatedItems.push(item);
+                } else if (selectedType === 'birthdate') {
+                    item.birthdate = generateBirthdate();
+                    generatedItems.push(item);
+                } else if (selectedType === 'address') {
+                    item.address = generateAddress();
+                    generatedItems.push(item);
+                }
+            }
+
+            // Tampilkan hasil
+            if (selectedType === 'userpass') {
+                generatedItems.forEach((item, index) => {
+                    const itemHtml = `
+                        <div class="result-box dynamic-result-box">
+                            <label>Username Acak #${index + 1}:</label>
+                            <p id="username-${index}">${item.username}</p>
+                            <button class="copy-button" onclick="copyToClipboard('username-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                        <div class="result-box dynamic-result-box">
+                            <label>Password Acak #${index + 1}:</label>
+                            <p id="password-${index}">${item.password}</p>
+                            <button class="copy-button" onclick="copyToClipboard('password-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += itemHtml;
+                });
+            } else if (selectedType === 'socialmedia') {
+                const listTitle = 'Username Media Sosial Acak:';
+                resultsContainer.innerHTML = `<h3 class="list-title">${listTitle}</h3>`;
+                generatedItems.forEach((item, index) => {
+                    const itemHtml = `
+                        <div class="result-box dynamic-result-box">
+                            <label>Hasil #${index + 1}:</label>
+                            <p id="item-${index}">${item.username}</p>
+                            <button class="copy-button" onclick="copyToClipboard('item-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += itemHtml;
+                });
+            } else if (selectedType === 'phonenumber') {
+                const listTitle = 'Nomor Telepon Acak:';
+                resultsContainer.innerHTML = `<h3 class="list-title">${listTitle}</h3>`;
+                generatedItems.forEach((item, index) => {
+                    const itemHtml = `
+                        <div class="result-box dynamic-result-box">
+                            <label>Hasil #${index + 1}:</label>
+                            <p id="item-${index}">${item.phoneNumber}</p>
+                            <button class="copy-button" onclick="copyToClipboard('item-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += itemHtml;
+                });
+            } else if (selectedType === 'birthdate') {
+                const listTitle = 'Tanggal Lahir Acak:';
+                resultsContainer.innerHTML = `<h3 class="list-title">${listTitle}</h3>`;
+                generatedItems.forEach((item, index) => {
+                    const itemHtml = `
+                        <div class="result-box dynamic-result-box">
+                            <label>Hasil #${index + 1}:</label>
+                            <p id="item-${index}">${item.birthdate}</p>
+                            <button class="copy-button" onclick="copyToClipboard('item-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += itemHtml;
+                });
+            } else if (selectedType === 'address') {
+                const listTitle = 'Alamat Acak:';
+                resultsContainer.innerHTML = `<h3 class="list-title">${listTitle}</h3>`;
+                generatedItems.forEach((item, index) => {
+                    const itemHtml = `
+                        <div class="result-box dynamic-result-box">
+                            <label>Hasil #${index + 1}:</label>
+                            <p id="item-${index}">${item.address.replace(/\n/g, '<br>')}</p>
+                            <button class="copy-button" onclick="copyToClipboard('item-${index}', this)">
+                                <i class="far fa-copy"></i>
+                                <span class="tooltip">Salin!</span>
+                            </button>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += itemHtml;
+                });
+            } else {
+                // Should not happen, but for safety
+                resultsContainer.innerHTML = `
+                    <div class="result-message-box">
+                        <h3>Kesalahan</h3>
+                        <p>Jenis generasi tidak dikenali. Silakan pilih jenis yang valid.</p>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Fungsi inti untuk membuat string acak umum (untuk username/password).
+         * @param {number} length - Panjang string yang diinginkan.
+         * @param {boolean} includeUppercase - Apakah menyertakan huruf kapital.
+         * @param {boolean} includeLowercase - Apakah menyertakan huruf kecil.
+         * @param {boolean} includeNumbers - Apakah menyertakan angka.
+         * @param {boolean} includeSymbols - Apakah menyertakan simbol.
+         * @returns {string} String acak yang dihasilkan.
+         */
+        function generateString(length, includeUppercase, includeLowercase, includeNumbers, includeSymbols) {
+            let characters = '';
+            if (includeUppercase) characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (includeLowercase) characters += 'abcdefghijklmnopqrstuvwxyz';
+            if (includeNumbers) characters += '0123456789';
+            if (includeSymbols) characters += '!@#$%^&*()_+[]{}|;:,.<>?'; // Simbol umum
+
+            let result = [];
+            const charactersLength = characters.length;
+
+            // Pastikan string yang dihasilkan memiliki setidaknya satu karakter dari setiap kategori yang dipilih
+            if (includeUppercase) result.push(getRandomChar('ABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+            if (includeLowercase) result.push(getRandomChar('abcdefghijklmnopqrstuvwxyz'));
+            if (includeNumbers) result.push(getRandomChar('0123456789'));
+            if (includeSymbols) result.push(getRandomChar('!@#$%^&*()_+[]{}|;:,.<>?'));
+
+            // Isi sisa panjang dengan karakter acak dari semua kategori yang dipilih
+            for (let i = result.length; i < length; i++) {
+                result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+            }
+
+            // Acak ulang array untuk memastikan distribusinya acak
+            return shuffleArray(result).join('');
+        }
+
+        /**
+         * Menggenerate username yang sesuai dengan format media sosial.
+         * @param {number} length - Panjang username yang diinginkan.
+         * @param {boolean} includeLowercase - Apakah menyertakan huruf kecil.
+         * @param {boolean} includeNumbers - Apakah menyertakan angka.
+         * @param {string} socialMediaSymbols - Simbol yang diizinkan (biasanya '._').
+         * @returns {string} Username media sosial acak yang dihasilkan.
+         */
+        function generateSocialMediaUsername(length, includeLowercase, includeNumbers, socialMediaSymbols) {
+            let characters = '';
+            if (includeLowercase) characters += 'abcdefghijklmnopqrstuvwxyz';
+            if (includeNumbers) characters += '0123456789';
+            characters += socialMediaSymbols; // Tambahkan simbol yang diizinkan
+
+            if (characters.length === 0) return '';
+
+            let username = '';
+            for (let i = 0; i < length; i++) {
+                let charToAdd = characters.charAt(Math.floor(Math.random() * characters.length));
+
+                // Hindari simbol di awal/akhir atau simbol berurutan
+                if (i === 0 && (charToAdd === '.' || charToAdd === '_')) {
+                    // Jika simbol di awal, coba lagi
+                    i--;
+                    continue;
+                }
+                if (username.length > 0) {
+                    const lastChar = username[username.length - 1];
+                    if ((lastChar === '.' && charToAdd === '.') || (lastChar === '_' && charToAdd === '_')) {
+                        // Jika simbol berurutan, coba lagi
+                        i--;
+                        continue;
+                    }
+                }
+                username += charToAdd;
+            }
+
+            // Bersihkan jika ada simbol di akhir (mungkin terjadi setelah loop)
+            if (username.endsWith('.') || username.endsWith('_')) {
+                username = username.slice(0, -1);
+            }
+
+            // Pastikan panjang minimum tetap terpenuhi jika pembersihan mengurangi terlalu banyak
+            if (username.length < Math.min(length, 4) && (includeLowercase || includeNumbers)) {
+                const fallbackChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                while (username.length < Math.min(length, 4)) {
+                    username += getRandomChar(fallbackChars);
+                }
+            }
+
+            return username.substring(0, length) || 'username_gen'; // Pastikan panjangnya sesuai dan ada fallback
+        }
+
+        /**
+         * Menggenerate nomor telepon acak dengan format Indonesia.
+         * @returns {string} Nomor telepon acak yang dihasilkan.
+         */
+        function generatePhoneNumber() {
+            const prefixes = ['081', '082', '083', '085', '087', '088', '089']; // Awalan umum operator seluler Indonesia
+            const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+
+            // Total panjang nomor telepon Indonesia yang diinginkan adalah 12 digit (termasuk '0' di awal)
+            const desiredTotalLength = 12;
+            let remainingDigits = desiredTotalLength - randomPrefix.length; // 12 - 3 = 9
+
+            let phoneNumber = randomPrefix;
+            for (let i = 0; i < remainingDigits; i++) {
+                phoneNumber += Math.floor(Math.random() * 10);
+            }
+
+            // Format dengan tanda hubung untuk keterbacaan (misal: 0812-3456-7890)
+            if (phoneNumber.length === desiredTotalLength) {
+                return phoneNumber.substring(0, 4) + '-' + phoneNumber.substring(4, 8) + '-' + phoneNumber.substring(8, 12);
+            }
+            // Fallback jika ada kasus yang tidak terduga, tapi seharusnya tidak terjadi dengan logic di atas
+            return phoneNumber;
+        }
+
+        /**
+         * Menggenerate tanggal lahir acak dalam rentang tahun tertentu.
+         * Rentang yang dipilih: 1950 - 2006 (sehingga usia minimal ~18 tahun dari tahun 2024/2025)
+         * @returns {string} Tanggal lahir acak dalam format DD-MM-YYYY.
+         */
+        function generateBirthdate() {
+            const startYear = 1950;
+            const endYear = 2006; // People born in 2006 are roughly 18-19 in 2024-2025
+            const year = Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
+            const month = Math.floor(Math.random() * 12); // 0-11 for Date object
+            const day = new Date(year, month + 1, 0).getDate(); // Get max day for current month
+
+            const randomDay = Math.floor(Math.random() * day) + 1;
+
+            // Format DD-MM-YYYY
+            const formattedDay = String(randomDay).padStart(2, '0');
+            const formattedMonth = String(month + 1).padStart(2, '0'); // Add 1 because month is 0-indexed
+
+            return `${formattedDay}-${formattedMonth}-${year}`;
+        }
+
+        /**
+         * Menggenerate alamat acak dengan format generik Indonesia.
+         * Ini adalah alamat fiktif dan tidak merujuk pada lokasi asli.
+         * @returns {string} Alamat acak yang dihasilkan.
+         */
+        function generateAddress() {
+            const streetPrefixes = ['Jalan', 'Jl.', 'Gang', 'Perumahan'];
+            const streetNames = ['Mawar', 'Melati', 'Cendana', 'Merdeka', 'Kusuma Bangsa', 'Diponegoro', 'Sudirman', 'Gatot Subroto', 'Pahlawan', 'Kartini', 'Kenangan'];
+            const streetSuffixes = ['Raya', 'Utama', 'Indah', 'Baru', 'Lama', 'Asri', 'Permai'];
+            const blockPrefixes = ['Blok', 'Cluster'];
+            const cityPrefixes = ['Kota', 'Kabupaten'];
+            const cities = ['Jakarta', 'Bandung', 'Surabaya', 'Medan', 'Semarang', 'Makassar', 'Palembang', 'Denpasar', 'Yogyakarta', 'Malang'];
+            const provinces = ['DKI Jakarta', 'Jawa Barat', 'Jawa Timur', 'Sumatera Utara', 'Jawa Tengah', 'Sulawesi Selatan', 'Sumatera Selatan', 'Bali', 'DI Yogyakarta', 'Banten', 'Riau'];
+
+            const randomStreetPrefix = streetPrefixes[Math.floor(Math.random() * streetPrefixes.length)];
+            const randomStreetName = streetNames[Math.floor(Math.random() * streetNames.length)];
+            const randomStreetSuffix = Math.random() < 0.5 ? streetSuffixes[Math.floor(Math.random() * streetSuffixes.length)] : '';
+            const streetNumber = Math.floor(Math.random() * 150) + 1; // 1-150
+            const hasBlock = Math.random() < 0.3; // 30% chance for block number
+            const blockNumber = hasBlock ? `${blockPrefixes[Math.floor(Math.random() * blockPrefixes.length)]} ${String.fromCharCode(65 + Math.floor(Math.random() * 5))}/${Math.floor(Math.random() * 20) + 1}` : '';
+
+            const rt = String(Math.floor(Math.random() * 10) + 1).padStart(3, '0'); // RT 001-010
+            const rw = String(Math.floor(Math.random() * 10) + 1).padStart(3, '0'); // RW 001-010
+
+            // Ambil nama dari array streetNames secara langsung
+            const randomKelurahan = streetNames[Math.floor(Math.random() * streetNames.length)];
+            const randomKecamatan = streetNames[Math.floor(Math.random() * streetNames.length)];
+
+            const randomCityPrefix = cityPrefixes[Math.floor(Math.random() * cityPrefixes.length)];
+            const randomCity = cities[Math.floor(Math.random() * cities.length)];
+            const randomProvince = provinces[Math.floor(Math.random() * provinces.length)];
+            const postalCode = String(Math.floor(10000 + Math.random() * 90000)); // Random 5-digit postal code
+
+            let addressParts = [
+                `${randomStreetPrefix} ${randomStreetName} ${randomStreetSuffix} No. ${streetNumber} ${blockNumber}`.trim(),
+                `RT ${rt}/RW ${rw}`,
+                `Kel. ${randomKelurahan}`,
+                `Kec. ${randomKecamatan}`,
+                `${randomCityPrefix} ${randomCity}`,
+                `${randomProvince}`,
+                `Kode Pos ${postalCode}`
+            ];
+
+            return addressParts.filter(part => part.trim() !== '').join('\n');
+        }
+
+        /**
+         * Mendapatkan karakter acak dari sebuah string.
+         * @param {string} charSet - Kumpulan karakter untuk dipilih.
+         * @returns {string} Karakter acak.
+         */
+        function getRandomChar(charSet) {
+            return charSet.charAt(Math.floor(Math.random() * charSet.length));
+        }
+
+        /**
+         * Mengacak urutan elemen dalam sebuah array (algoritma Fisher-Yates).
+         * @param {Array} array - Array yang akan diacak.
+         * @returns {Array} Array yang sudah diacak.
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Tukar elemen
+            }
+            return array;
+        }
+
+        /**
+         * Menyalin teks dari elemen HTML ke clipboard.
+         * @param {string} elementId - ID elemen HTML yang berisi teks untuk disalin.
+         * @param {HTMLElement} buttonElement - Elemen tombol yang diklik (digunakan untuk tooltip).
+         */
+        function copyToClipboard(elementId, buttonElement) {
+            const element = document.getElementById(elementId);
+            // Untuk alamat, gunakan innerText karena mungkin ada <br> tags
+            const textToCopy = elementId.startsWith('item-') && document.querySelector('input[name="generationType"]:checked').value === 'address'
+                               ? element.innerText.replace(/<br>/g, '\n') // Replace <br> with newline for copying addresses
+                               : element.innerText;
+
+            // Menggunakan document.execCommand('copy') sebagai fallback untuk kompatibilitas iframe
+            if (document.execCommand) {
+                const textarea = document.createElement('textarea');
+                textarea.value = textToCopy;
+                textarea.style.position = 'fixed'; // Agar tidak terlihat
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    const tooltip = buttonElement.querySelector('.tooltip');
+                    if (successful) {
+                        tooltip.innerText = 'Disalin!';
+                        setTimeout(() => {
+                            tooltip.innerText = 'Salin!';
+                        }, 1500);
+                    } else {
+                        showMessageBox("Gagal Menyalin", "Gagal menyalin teks ke clipboard. Silakan salin secara manual.");
+                    }
+                } catch (err) {
+                    showMessageBox("Gagal Menyalin", "Gagal menyalin teks ke clipboard: " + err + ". Silakan salin secara manual.");
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            } else {
+                // Fallback untuk browser yang tidak mendukung execCommand
+                showMessageBox("Gagal Menyalin", "Browser Anda tidak mendukung penyalinan otomatis. Silakan salin teks secara manual.");
+            }
+        }
+    </script>
+</body>
+</html>
